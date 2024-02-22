@@ -1,0 +1,132 @@
+<!-- Modal -->
+<div class="modal modal-lg fade" id="cyberCriminalModal{{cyber_criminal.id}}" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="cyberCriminalModal{{cyber_criminal.id}}Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title display-5" id="cyberCriminalModal{{cyber_criminal.id}}Label">
+                    {{cyber_criminal.name }}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <section class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Personal Information</h5>
+                                    <p class="card-text">
+                                        <strong>Date of Birth:&nbsp;</strong>
+                                        {{cyber_criminal.d_o_b}}
+                                    </p>
+                                    <p class="card-text" id="nationality">
+                                        <strong>Nationality:&nbsp;</strong>
+                                        {{cyber_criminal.get_nationality_display}}
+                                    </p>
+                                    <p class="card-text" id="last_known_location">
+                                        <strong>Last Known
+                                            Location:&nbsp;</strong>
+                                        {{cyber_criminal.get_last_known_location_display}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Physical Information</h5>
+                                    <p class="card-text" id="height">
+                                        <strong>Height:&nbsp;</strong>
+                                        {{cyber_criminal.height}} cm
+                                    </p>
+                                    <p class="card-text" id="weight">
+                                        <strong>Weight:&nbsp;</strong>
+                                        {{cyber_criminal.weight}} kg
+                                    </p>
+                                    <p class="card-text" id="weight">
+                                        <strong>Hair Color:&nbsp;</strong>
+                                        {{cyber_criminal.hair_color}}
+                                    </p>
+                                    <p class="card-text" id="weight">
+                                        <strong>Eye Color:&nbsp;</strong>
+                                        {{cyber_criminal.eye_color}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Psychological Information</h5>
+                                    <p class="card-text" id="aggression_level">
+                                        <strong>Aggression Level:&nbsp;</strong>
+                                        {{cyber_criminal.aggression_level}}/10
+                                    </p>
+                                    <p class="card-text" id="risk_taking_level">
+                                        <strong>Risk-taking Level:&nbsp;</strong>
+                                        {{cyber_criminal.risk_taking_level}}/10
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Technical Information</h5>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p class="card-text" id="hacker_classification">
+                                                <strong>Hacker
+                                                    Classification:&nbsp;</strong>{{cyber_criminal.get_hacker_classification_display}}
+                                            </p>
+                                            <p class="card-text" id="aliases">
+                                                <strong>Aliases:&nbsp;</strong>
+                                                {% for alias in cyber_criminal.aliases.all %}
+                                                <small class="item-pill">{{ alias }}</small>
+                                                {% endfor %}
+                                            </p>
+                                            <p class="card-text" id="associated_devices">
+                                                <strong>Asssociated Devices:&nbsp;</strong>
+                                                {% for device in cyber_criminal.associated_devices.all %}
+                                                <small class="item-pill">{{ device }}</small>
+                                                {% endfor %}
+                                            </p>
+                                            <p class="card-text" id="associated_ips">
+                                                <strong>Associated IPs:&nbsp;</strong>
+                                                {% for ip_adddress in cyber_criminal.associated_ips.all %}
+                                                <small class="item-pill">{{ ip_adddress }}</small>
+                                                {% endfor %}
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="card-text" id="techniques">
+                                                <strong>Techniques:&nbsp;</strong>
+                                                {% for technique in cyber_criminal.techniques.all %}
+                                                <small class="item-pill" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-custom-class="custom-tooltip"
+                                                    data-bs-title="{{technique.description}}">
+                                                    {{technique.name}}
+                                                </small>
+                                                {% endfor %}
+                                            </p>
+                                            <p class="card-text" id="tactics">
+                                                <strong>Tactics:&nbsp;</strong>
+                                                {% for tactic in cyber_criminal.tactics.all %}
+                                                <small class="item-pill" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-custom-class="custom-tooltip"
+                                                    data-bs-title="{{tactic.description}}">
+                                                    {{tactic.name}}
+                                                </small>
+                                                {% endfor %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block title %}Cyber-Criminals{% endblock title %}
+
+{% block custom_css %}
+<style>
+    .item-pill {
+        background-color: #cfe3f3;
+        border: none;
+        color: black;
+        padding: 3px 5px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        margin: 4px 2px;
+        cursor: default;
+        border-radius: 16px;
+        font-weight: 500;
+    }
+
+    .item-pill:hover {
+        background-color: #dee9f1;
+    }
+</style>
+{% endblock custom_css %}
+
+{% block header %}
+<div class="pagetitle">
+    <h1>View Criminal Profile</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'profiler:criminal_profiles' %}">Cyber-Criminals</a></li>
+            <li class="breadcrumb-item active">Profile</li>
+        </ol>
+    </nav>
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="container-fluid">
+    <p class="display-5 text-center">{{cyber_criminal.name}}</p>
+</div>
+
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Personal Information</h5>
+                    <p class="card-text">
+                        <strong>Date of Birth:&nbsp;</strong>
+                        {{cyber_criminal.d_o_b}}
+                    </p>
+                    <p class="card-text" id="nationality">
+                        <strong>Nationality:&nbsp;</strong>
+                        {{cyber_criminal.get_nationality_display}}
+                    </p>
+                    <p class="card-text" id="last_known_location">
+                        <strong>Last Known
+                            Location:&nbsp;</strong>
+                        {{cyber_criminal.get_last_known_location_display}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Physical Information</h5>
+                    <p class="card-text" id="height">
+                        <strong>Height:&nbsp;</strong>
+                        {{cyber_criminal.height}} cm
+                    </p>
+                    <p class="card-text" id="weight">
+                        <strong>Weight:&nbsp;</strong>
+                        {{cyber_criminal.weight}} kg
+                    </p>
+                    <p class="card-text" id="weight">
+                        <strong>Hair Color:&nbsp;</strong>
+                        {{cyber_criminal.hair_color}}
+                    </p>
+                    <p class="card-text" id="weight">
+                        <strong>Eye Color:&nbsp;</strong>
+                        {{cyber_criminal.eye_color}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Psychological Information</h5>
+                    <p class="card-text" id="aggression_level">
+                        <strong>Aggression Level:&nbsp;</strong>
+                        {{cyber_criminal.aggression_level}}/10
+                    </p>
+                    <p class="card-text" id="risk_taking_level">
+                        <strong>Risk-taking Level:&nbsp;</strong>
+                        {{cyber_criminal.risk_taking_level}}/10
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Technical Information</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="card-text" id="hacker_classification">
+                                <strong>Hacker
+                                    Classification:&nbsp;</strong>{{cyber_criminal.get_hacker_classification_display}}
+                            </p>
+                            <p class="card-text" id="aliases">
+                                <strong>Aliases:&nbsp;</strong>
+                                {% for alias in cyber_criminal.aliases.all %}
+                                <small class="item-pill">{{ alias }}</small>
+                                {% endfor %}
+                            </p>
+                            <p class="card-text" id="associated_devices">
+                                <strong>Asssociated Devices:&nbsp;</strong>
+                                {% for device in cyber_criminal.associated_devices.all %}
+                                <small class="item-pill">{{ device }}</small>
+                                {% endfor %}
+                            </p>
+                            <p class="card-text" id="associated_ips">
+                                <strong>Associated IPs:&nbsp;</strong>
+                                {% for ip_adddress in cyber_criminal.associated_ips.all %}
+                                <small class="item-pill">{{ ip_adddress }}</small>
+                                {% endfor %}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="card-text" id="techniques">
+                                <strong>Techniques:&nbsp;</strong>
+                                {% for technique in cyber_criminal.techniques.all %}
+                                <small class="item-pill" data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-custom-class="custom-tooltip" data-bs-title="{{technique.description}}">
+                                    {{technique.name}}
+                                </small>
+                                {% endfor %}
+                            </p>
+                            <p class="card-text" id="tactics">
+                                <strong>Tactics:&nbsp;</strong>
+                                {% for tactic in cyber_criminal.tactics.all %}
+                                <small class="item-pill" data-bs-toggle="tooltip" data-bs-placement="top"
+                                    data-bs-custom-class="custom-tooltip" data-bs-title="{{tactic.description}}">
+                                    {{tactic.name}}
+                                </small>
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block custom_js %}
+{% endblock custom_js %}

@@ -1,0 +1,198 @@
+{% extends 'non-base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+<header class="pt-3" id="homeTitle">
+    <div class="container pt-4">
+        <div class="row pb-5">
+            <div class="col-md-8 text-center text-md-start mx-auto">
+                <div class="text-center">
+                    <div class="col-12 col-lg-10 mx-auto">
+                        <div class="text-center position-relative">
+                            <img class="img-fluid" src="{% static 'assets/img/logo.png' %}" style="width: 150px;">
+                        </div>
+                    </div>
+                    <h1 class="display-4 fw-bold mb-4">
+                        Cyber-Criminal<br>Profiling System
+                    </h1>
+                    <p class="fs-5 text-muted mb-2">
+                        Empowering Law Enforcement in the Digital Age
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section id="featuresSection">
+    <div class="container py-4 py-xl-5">
+        <h2 class="display-6 fw-bold mb-5 text-center">
+            <span class="pb-3 underline">Features<br></span>
+        </h2>
+        <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-lg-3">
+            <div class="col">
+                <div class="card border-light border-1 d-flex justify-content-center p-4">
+                    <div class="card-body">
+                        <div>
+                            <h4 class="fw-bold">Add Cyber-Criminal Profiles</h4>
+                            <p class="text-muted">
+                                Create and manage detailed profiles of cyber-criminals, including their techniques and
+                                digital aliases. This feature aids in the identification and tracking of
+                                potential cybercriminals.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card border-light border-1 d-flex justify-content-center p-4">
+                    <div class="card-body">
+                        <div>
+                            <h4 class="fw-bold">Match Cyber-Criminals</h4>
+                            <p class="text-muted">
+                                Use our advanced matching algorithms to find potential matches between the
+                                cyber-criminal profiles in your database. This can help in identifying repeat offenders
+                                and predicting future criminal activities.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card border-light border-1 d-flex justify-content-center p-4">
+                    <div class="card-body">
+                        <div>
+                            <h4 class="fw-bold">24/7 Support</h4>
+                            <p class="text-muted">
+                                Our team is always here to help. If you have any questions or need assistance, feel free
+                                to contact us at any time. Recieve around the clock support from our team of trained professionals on a range of issues, from technical support to general inquiries.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 mt-5" id="contactSection">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <h2 class="display-6 fw-bold mb-4">Got any <span class="underline">questions</span>?</h2>
+                <p class="text-muted">Our team is always here to help. Send us a message and we'll get back to you
+                    shortly.
+                </p>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6">
+                <div>
+                    <form class="p-3 p-xl-4" method="post" data-bs-theme="light" action="{% url 'contact' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <input class="shadow form-control" type="text" id="name-1" name="name" placeholder="Name">
+                        </div>
+                        <div class="mb-3">
+                            <input class="shadow form-control" type="email" id="email-1" name="email"
+                                placeholder="Email">
+                        </div>
+                        <div class="mb-3">
+                            <input class="shadow form-control" type="text" id="subject-1" name="subject"
+                                placeholder="Subject">
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="shadow form-control" id="message-1" name="message" rows="6"
+                                placeholder="Message"></textarea>
+                        </div>
+                        <div><button class="btn btn-primary shadow d-block w-100" type="submit">Send </button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="py-4 py-xl-5 mb-5" id="faqSection">
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <h2 class="display-6 fw-bold mb-5"><span class="pb-3 underline">FAQ<br></span></h2>
+                <p class="text-muted mb-2">
+                    <small>
+                        Here are some frequently asked questions about the Cyber-Criminal Profiling System. If you have
+                        any other questions, please feel free to <a href="#contactSection">contact us</a>.
+                    </small>
+                </p>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-8 mx-auto">
+                <div class="accordion text-muted" role="tablist" id="accordion-1">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" role="tab">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#accordion-1 .item-1" aria-expanded="true"
+                                aria-controls="accordion-1 .item-1">
+                                What is the Cyber-Criminal Profiling System?
+                            </button>
+                        </h2>
+                        <div class="accordion-collapse collapse show item-1" role="tabpanel"
+                            data-bs-parent="#accordion-1">
+                            <div class="accordion-body">
+                                <p>The Cyber-Criminal Profiling System is a cutting-edge digital tool designed to
+                                    empower law enforcement agencies. It aids in the identification, tracking, and
+                                    prevention of cybercrime by providing detailed profiles of potential cybercriminals.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" role="tab">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#accordion-1 .item-2" aria-expanded="false"
+                                aria-controls="accordion-1 .item-2">
+                                How does the Cyber-Criminal Profiling System work?
+                            </button>
+                        </h2>
+                        <div class="accordion-collapse collapse item-2" role="tabpanel" data-bs-parent="#accordion-1">
+                            <div class="accordion-body">
+                                <p class="mb-0">
+                                    Our system uses advanced algorithms to
+                                    analyze known data, including techniques behavior, digital devices, and
+                                    aliases of cyer-criminals. This data is then used to create comprehensive profiles
+                                    that can help law enforcement agencies in their investigations by extrapolating
+                                    submitted profiles of cyer-criminals to gain technical insight into their
+                                    activities.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" role="tab">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#accordion-1 .item-3" aria-expanded="false"
+                                aria-controls="accordion-1 .item-3">
+                                Is the Cyber-Criminal Profiling System secure and confidential? Absolutely.
+                            </button>
+                        </h2>
+                        <div class="accordion-collapse collapse item-3" role="tabpanel" data-bs-parent="#accordion-1">
+                            <div class="accordion-body">
+                                <p class="mb-0">
+                                    We prioritize the security and confidentiality of all data. Our system adheres to
+                                    strict privacy regulations and uses encryption methods to ensure that all
+                                    information is securely stored and processed.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

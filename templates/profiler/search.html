@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block title %}Search{% endblock title %}
+
+{% block custom_css %}
+<style>
+    .item-pill {
+        background-color: #cfe3f3;
+        border: none;
+        color: black;
+        padding: 3px 5px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        margin: 4px 2px;
+        cursor: default;
+        border-radius: 16px;
+        font-weight: 500;
+        font-size: small;
+    }
+
+    .item-pill:hover {
+        background-color: #dee9f1;
+    }
+</style>
+{% endblock custom_css %}
+
+{% block header %}
+<div class="pagetitle">
+    <h1>Search</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+            <li class="breadcrumb-item active">Search</li>
+        </ol>
+    </nav>
+</div>
+{% endblock header %}
+
+{% block content %}
+<section class="container">
+    <div class="row">
+        {% for cyber_criminal in cyber_criminals %}
+        <div class="col-6">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">{{cyber_criminal}}</h5>
+                    <p class="card-text" id="techniques">
+                        <strong>Techniques:&nbsp;</strong>
+                        {% for technique in cyber_criminal.techniques.all %}
+                        <span class="item-pill" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-custom-class="custom-tooltip" data-bs-title="{{technique.description}}">
+                            {{technique.name}}
+                        </span>
+                        {% endfor %}
+                    </p>
+                    <p class="card-text" id="tactics">
+                        <strong>Tactics:&nbsp;</strong>
+                        {% for tactic in cyber_criminal.tactics.all %}
+                        <span class="item-pill" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-custom-class="custom-tooltip" data-bs-title="{{tactic.description}}">
+                            {{tactic.name}}
+                        </span>
+                        {% endfor %}
+                    </p>
+                    <a href="{% url 'profiler:view_profile' cyber_criminal.id %}" class="btn btn-primary">View
+                        Profile</a>
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock content %}
+
+{% block custom_js %}
+{% endblock custom_js %}

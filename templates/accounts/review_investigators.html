@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Review Investigator{% endblock %}
+
+{% block header %}
+<div class="pagetitle">
+    <h1>Investigators</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+            <li class="breadcrumb-item active">Investigators</li>
+        </ol>
+    </nav>
+</div>
+{% endblock header %}
+
+{% block content %}
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <p class="m-2">Explore the profiles of existing investigators or <a
+                            href="{% url 'add_investigator' %}" target="_blank">enroll a new investigator</a>.
+                        Select an investigator to access account actions and get more detailed information.</p>
+                    <table class="table" id="investigatorTable">
+                        <thead>
+                            <tr>
+                                <th>Username </th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th data-type="date" data-format="YYYY/DD/MM">Last Login</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for investigator in investigators %}
+                            <tr>
+                                <td>{{investigator.username}}</td>
+                                <td>{{investigator.get_full_name}}</td>
+                                <td>{{investigator.email}}</td>
+                                <td>{{investigator.phone}}</td>
+                                <td>{{investigator.last_login}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block custom_js %}
+<script>
+    $('#investigatorTable').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
+</script>
+{% endblock custom_js %}

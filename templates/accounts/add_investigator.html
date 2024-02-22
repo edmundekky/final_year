@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Add Investigator{% endblock %}
+
+{% block header %}
+<div class="pagetitle">
+    <h1>Add Investigator</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'review_investigators' %}">Investigators</a></li>
+            <li class="breadcrumb-item active">Add</li>
+        </ol>
+    </nav>
+</div>
+
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+
+    <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="pt-4 pb-2">
+                                <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
+                                <p class="text-center small">Enter the investigator's details to create account</p>
+                            </div>
+
+                            <form class="row g-3 needs-validation" novalidate method="post">
+                                {% csrf_token %}
+                                <div class="col-6">
+                                    <label for="first_name" class="form-label">First Name</label>
+                                    <input type="text" name="first_name" class="form-control" id="first_name" required>
+                                    <div class="invalid-feedback">Please, enter your first name!</div>
+                                </div>
+
+                                <div class="col-6">
+                                    <label for="last_name" class="form-label">Last Name</label>
+                                    <input type="text" name="last_name" class="form-control" id="last_name" required>
+                                    <div class="invalid-feedback">Please, enter your last name!</div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="username" class="form-label">Username</label>
+                                    <div class="input-group has-validation">
+                                        <span class="input-group-text" id="inputGroupPrepend">@</span>
+                                        <input type="text" name="username" class="form-control" id="username" required>
+                                        <div class="invalid-feedback">Please choose a username.</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" name="email" class="form-control" id="email" required>
+                                    <div class="invalid-feedback">Please enter a valid email adddress!</div>
+                                </div>
+
+                                <div class="col-6">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="text" name="phone" class="form-control" id="phone" required>
+                                    <div class="invalid-feedback">Please, enter a valid phone number!</div>
+                                </div>
+
+                                <div class="col-6">
+                                    <label for="address" class="form-label">Address</label>
+                                    <input type="text" name="address" class="form-control" id="address" required>
+                                    <div class="invalid-feedback">Please, enter your address!</div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="password1" class="form-label">Password</label>
+                                    <input type="password" name="password1" class="form-control" id="password1"
+                                        required>
+                                    <div class="invalid-feedback">Please enter your password!</div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="password2" class="form-label">Confirm Password</label>
+                                    <input type="password" name="password2" class="form-control" id="password2"
+                                        required>
+                                    <div class="invalid-feedback">Please confirm your password!</div>
+                                </div>
+
+                                <div class="col-12">
+                                    <button class="btn btn-primary w-100" type="submit" id="addButton">Create
+                                        Account</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}
+
+{% block custom_js %}
+<script>
+    var addButton = document.getElementById('addButton');
+    var acceptTerms = document.getElementById('acceptTerms');
+
+    function checkTerms() {
+        if (acceptTerms.checked) {
+            addButton.disabled = false;
+        } else {
+            addButton.disabled = true;
+        }
+    }
+</script>
+{% endblock custom_js %}

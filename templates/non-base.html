@@ -1,0 +1,187 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'non/assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Raleway:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+    <!-- create favicon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/img/logo.png' %}">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md sticky-top navbar-shrink py-3 navbar-light" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="">
+                <span><img src="{% static 'assets/img/logo.png' %}" alt="logo" style="height: 40px;"></span>
+            </a>
+            <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}#homeTitle">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}#featuresSection">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}#contactSection">Contact Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}#faqSection">FAQ</a>
+                    </li>
+                </ul>
+
+                {% if request.user.is_authenticated %}
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                    <img src="{% static 'assets/img/user.jpg' %}" alt="Profile" class="rounded-circle"
+                        style="height: 40px;">
+                    <span class="d-none d-md-block dropdown-toggle ps-2">{{user.first_name|slice:":1"}}.
+                        {{user.last_name}}</span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                    <li class="dropdown-header">
+                        <h6>{{ user.get_full_name }}</h6>
+                        <span>{{ user.get_investigator_type_display }}</span>
+                    </li>
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="{% url 'dashboard' %}">
+                            <i class="bi bi-house"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="{% url 'investigator_profile' %}">
+                            <i class="bi bi-gear"></i>
+                            <span>Account Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <button class="dropdown-item d-flex align-items-center" onclick="confirmLogout()">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Sign Out</span>
+                        </button>
+                    </li>
+
+                </ul><!-- End Profile Dropdown Items -->
+                {% else %}
+                <a class="btn btn-primary shadow" role="button" href="{% url 'login' %}">Log in</a>
+                {% endif %}
+
+            </div>
+        </div>
+    </nav>
+
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'success' %}
+    <script>
+        var message = "{{ message|safe }}";
+        var alertType = "success";
+        console.log(message);
+
+        Swal.fire({
+            title: "Success!",
+            text: message,
+            icon: "success"
+        });
+    </script>
+    {% elif message.tags == 'info' %}
+    <script>
+        var message = "{{ message|safe }}";
+        var alertType = "info";
+        console.log(message);
+
+        Swal.fire({
+            title: "info!",
+            text: message,
+            icon: "info"
+        });
+
+    </script>
+
+    {% elif message.tags == 'warning' %}
+    <script>
+        var message = "{{ message|safe }}";
+        var alertType = "warning";
+        console.log(message);
+
+        Swal.fire({
+            title: "Warning!",
+            text: message,
+            icon: "warning"
+        });
+    </script>
+
+    {% elif message.tags == 'error' %}
+    <script>
+        var message = "{{ message|safe }}";
+        var alertType = "error";
+        console.log(message);
+
+        Swal.fire({
+            title: "Error!",
+            text: message,
+            icon: "error"
+        });
+    </script>
+
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    <main class="min-vh-100">
+
+        {% block content %}
+
+        {% endblock content %}
+
+    </main>
+
+    <footer>
+        <div class="container py-1">
+            <hr>
+            <div class="text-muted d-flex justify-content-between align-items-center pt-3">
+                <p class="mb-0">Copyright © 2024 Cyber-Criminal Profiling System</p>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'non/assets/js/script.min.js' %}"></script>
+    <script>
+        function confirmLogout() {
+            Swal.fire({
+                title: "Warning!",
+                text: "Are you sure you want to log out?",
+                icon: "warning",
+                confirmButtonText: "Log Me Out",
+                confirmButtonColor: "#d33",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{% url 'logout' %}";
+                }
+            })
+        }
+    </script>
+
+</body>
+
+</html>

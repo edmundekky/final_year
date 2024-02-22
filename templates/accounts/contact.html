@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block title %}Contact Us{% endblock title %}
+
+{% block custom_css %}
+{% endblock custom_css %}
+
+
+{% block header %}
+<div class="pagetitle">
+    <h1>Contact Page</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+            <li class="breadcrumb-item active">Contact Page</li>
+        </ol>
+    </nav>
+</div>
+{% endblock header %}
+
+{% block content %}
+<section class="section contact">
+    <div class="row gy-4">
+        <div class="col-xl-6">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="info-box card">
+                        <i class="bi bi-geo-alt"></i>
+                        <h3>Address</h3>
+                        <p>Test Address 232<br>Test Town</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="info-box card">
+                        <i class="bi bi-telephone"></i>
+                        <h3>Call Us</h3>
+                        <p>+254 123 456 789</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="info-box card">
+                        <i class="bi bi-envelope"></i>
+                        <h3>Email Us</h3>
+                        <p>contact@example.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6">
+            <div class="card p-4">
+                <form class="needs-validation" novalidate method="post">
+                    {% csrf_token %}
+                    <div class="row gy-4">
+                        <div class="col-md-12">
+                            {% bootstrap_field contact_form.subject %}
+                        </div>
+                        <div class="col-md-12">
+                            {% bootstrap_field contact_form.message %}
+                        </div>
+
+                        <div class="col-md-12 text-center">
+                            <button class="btn btn-success" type="submit">Send Message</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}
+
+{% block custom_js %}
+{% endblock custom_js %}

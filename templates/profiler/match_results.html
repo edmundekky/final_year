@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block title %}Cyber-Criminals{% endblock title %}
+
+{% block custom_css %}
+<style>
+    .item-pill {
+        background-color: #cfe3f3;
+        border: none;
+        color: black;
+        padding: 3px 5px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        margin: 4px 2px;
+        cursor: default;
+        border-radius: 16px;
+        font-weight: 500;
+    }
+
+    .item-pill:hover {
+        background-color: #dee9f1;
+    }
+</style>
+{% endblock custom_css %}
+
+{% block header %}
+<div class="pagetitle">
+    <h1>Criminal Profile Match Results</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'profiler:criminal_profiles' %}">Cyber-Criminals</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'profiler:match_profile' %}">Match</a></li>
+            <li class="breadcrumb-item active">Match Results</li>
+        </ol>
+    </nav>
+</div>
+{% endblock header %}
+
+{% block content %}
+<div class="d-flex justify-content-end">
+    <a class="btn btn-success" href="{% url 'profiler:generate_results_pdf' match.id %}">Generate Report</a>
+</div>
+
+<section>
+    <div class="m-3 px-3">
+        <h2>Top 3 Matched Profiles</h2>
+        <p class="text-muted small">
+            Below are the top 3 profiles that match your search criteria. Click on each profile to obtain a view a
+            comprehensive overview of the cyber-criminal activities and capabilities.
+        </p>
+        <div class="row">
+            {% for cyber_criminal in matched_criminals %}
+            <div class="col">
+                <button class="card" type="button" data-bs-toggle="modal"
+                    data-bs-target="#cyberCriminalModal{{cyber_criminal.id}}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ cyber_criminal.name }}</h5>
+                        <p class="card-text" id="aliases">
+                            <strong>Aliases:&nbsp;</strong>
+                            {% for alias in cyber_criminal.aliases.all %}
+                            <small class="item-pill">{{ alias }}</small>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Modal -->
+            {% include 'profiler/cyber_criminal_modal.html' %}
+            <!-- End of Modal  -->
+
+            {% empty %}
+            <p class="small text-warning">
+                We're sorry, but no profiles matched your search criteria. Please try again with different parameters.
+            </p>
+            {% endfor %}
+        </div>
+
+    </div>
+    <div class="card p-3">
+        <h2>List of Matching Techniques</h2>
+        <p>
+            Based on the information provided, the following techniques are the most likely to have been used or be used
+            by the criminal in the future. This information can be used to further refine your search criteria.
+        </p>
+        <p class="card-text" id="techniques">
+            <strong>Techniques:&nbsp;</strong>
+            {% for technique in possible_techniques %}
+            <span class="item-pill small" data-bs-toggle="tooltip" data-bs-placement="top"
+                data-bs-custom-class="custom-tooltip" data-bs-title="{{technique.description}}">
+                {{technique.name}}
+            </span>
+            {% endfor %}
+        </p>
+    </div>
+</section>
+{% endblock content %}
+
+{% block custom_js %}
+{% endblock custom_js %}

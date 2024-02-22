@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block title %}Cyber-Criminals{% endblock title %}
+
+{% block custom_css %}
+<style>
+    .form-check {
+        margin-bottom: 0.5rem;
+    }
+</style>
+{% endblock custom_css %}
+
+
+{% block header %}
+<div class="pagetitle">
+    <h1>Match Criminal Profile</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'profiler:criminal_profiles' %}">Cyber-Criminals</a></li>
+            <li class="breadcrumb-item active">Match</li>
+        </ol>
+    </nav>
+</div>
+{% endblock header %}
+
+{% block content %}
+<section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-md-10 d-flex flex-column align-items-center justify-content-center">
+
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="py-2">
+                        <h5 class="card-title text-center pb-0 fs-4">Match Cyber-Criminal Profiles</h5>
+                        <p class="text-center small text-muted">
+                            Enter the cyber-criminal's details to match them to existing cyber-criminal profiles in our
+                            database.
+                        </p>
+                    </div>
+
+                    <form class="row g-3 needs-validation" novalidate method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="col-12 mb-4">
+                            <p class="h4 text-center">Techniques</p>
+
+                            <div id="techniquesContainer" class="mb-3">
+
+                            </div>
+
+                            <input class="form-control" type="search" id="techniquesInput" onkeyup="searchFunction()"
+                                placeholder="Search For Techniques..">
+                            <ul class="list-group" id="techniquesList" style="display: none;">
+                                {% for technique in techniques %}
+                                <li class="list-group-item" data-tech-name="{{ technique.name }}">
+                                    <div class="d-flex justify-content-between">
+                                        <span>{{ technique }}
+                                            <a href="#" data-bs-toggle="tooltip"
+                                                data-bs-title="{{technique.description}}">&nbsp;
+                                                <i class="fa-solid fa-circle-question fa-xs"></i>
+                                            </a>
+
+                                        </span>
+                                        <span>
+                                            <span class="btn btn-sm btn-success" data-tech-id="{{technique.id}}"
+                                                data-tech-name="{{technique.name}}" onclick="addTechnique(this)">
+                                                <i class="fa-solid fa-plus fa-beat-fade"></i>&nbsp;Add
+                                            </span>
+                                        </span>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <!-- criminal personal details -->
+                        <div class="col-sm-6 col-md-4 col-lg-4">
+                            {% bootstrap_field criminal_form.nationality %}
+                        </div>
+
+                        <div class="col-sm-6 col-md-4 col-lg-4">
+                            {% bootstrap_field criminal_form.last_known_location %}
+                        </div>
+
+                        <div class="col-sm-8 col-md-4 col-lg-4">
+                            {% bootstrap_field criminal_form.hacker_classification %}
+                        </div>
+
+                        <div class="col-sm-12 col-md-8 col-lg-8 form-floating mb-3">
+                            <input type="text" name="aliases" class="form-control" id="aliases" placeholder="Aliases">
+                            <label for="aliases" class="form-label">&nbsp;&nbsp;Aliases</label>
+                            <div class="form-text">Seperate each unique alias using a comma</div>
+                        </div>
+
+                        <!-- psychological form fields -->
+                        <div class="col-6">
+                            <div class="mb-3"><label class="form-label" for="id_aggression_level">Level of
+                                    Aggression</label><input type="range" name="aggression_level" min="1" max="10"
+                                    step="1" value="5" class="form-range" placeholder="Level of Aggression" required
+                                    aria-describedby="id_aggression_level_helptext" id="id_aggression_level">
+                                <div class="form-text">Aggression level on a scale of 1-10</div>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="mb-3"><label class="form-label" for="id_risk_taking_level">Level of Risk
+                                    Taken</label><input type="range" name="risk_taking_level" min="1" max="10" step="1"
+                                    value="5" class="form-range" placeholder="Level of Risk Taken" required
+                                    aria-describedby="id_risk_taking_level_helptext" id="id_risk_taking_level">
+                                <div class="form-text">Risk-taking level on a scale of 1-10</div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-8 col-lg-8 form-floating">
+                            <input type="text" name="ips" class="form-control" id="ips"
+                                placeholder="Associated IP Addresses">
+                            <label for="ips" class="form-label">&nbsp;&nbsp;Associated IP Addresses</label>
+                            <div class="form-text">Seperate each unique IP address using a comma</div>
+                        </div>
+
+                        <div class="col-sm-12 col-md-8 col-lg-8 form-floating">
+                            <input type="text" name="devices" class="form-control" id="devices"
+                                placeholder="Associated Devices">
+                            <label for="devices" class="form-label">&nbsp;&nbsp;Associated Devices</label>
+                            <div class="form-text">Seperate each unique device using a comma</div>
+                        </div>
+
+                        <button class="btn btn-primary w-100" type="submit" id="addButton">
+                            <i></i>&nbsp;<span>Match Profile</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block custom_js %}
+<script>
+    function searchFunction() {
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('techniquesInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("techniquesList");
+        li = ul.getElementsByClassName('list-group-item');
+
+        // If the search box is empty, hide the list
+        if (input.value === '') {
+            ul.style.display = "none";
+        } else {
+            ul.style.display = "";
+        }
+
+        for (i = 0; i < li.length; i++) {
+            txtValue = li[i].getAttribute('data-tech-name');
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+
+    function addTechnique(addTechniqueButton) {
+        let techniqueName = addTechniqueButton.getAttribute('data-tech-name');
+        let techniqueId = addTechniqueButton.getAttribute('data-tech-id');
+        let container = document.getElementById('techniquesContainer');
+
+        // Create a new div with class 'form-check'
+        let div = document.createElement('div');
+        div.setAttribute('class', 'form-check');
+        div.setAttribute('class', 'form-switch');
+
+        // Create the input element with class 'form-check-input'
+        let input = document.createElement('input');
+        input.setAttribute('class', 'form-check-input');
+        input.setAttribute('type', 'checkbox');
+        input.setAttribute('value', techniqueId);
+        input.setAttribute('id', techniqueId);  // Use techniqueName as id
+        input.setAttribute('name', 'techniques');  // Use 'techniques' as name
+        input.setAttribute('checked', 'checked');  // Check the checkbox by default
+
+        // Attach event listener to the input
+        input.addEventListener('change', function () {
+            // if form-check is unchecked, remove the technique from the checked list by deleting the item
+            if (!this.checked) {
+                this.parentElement.remove();
+            }
+        });
+
+        // Create the label element with class 'form-check-label'
+        let label = document.createElement('label');
+        label.setAttribute('class', 'form-check-label');
+        label.setAttribute('for', techniqueId);  // Associate label with input using 'for' attribute
+        label.innerHTML = techniqueName;
+
+        // Append the input and label to the div
+        div.appendChild(input);
+        div.appendChild(label);
+
+        // Append the div to the container
+        container.appendChild(div);
+    }
+</script>
+<script>
+// Get the riskSlider and riskHelpText elements
+let riskSlider = document.getElementById("id_risk_taking_level");
+let aggressionSlider = document.getElementById("id_aggression_level");
+let riskHelpText = riskSlider.nextElementSibling;
+let aggressionHelpText = aggressionSlider.nextElementSibling;
+
+// Update the riskHelpText with the riskSlider's current value
+riskHelpText.innerHTML += " (current=" + riskSlider.value + ")";
+aggressionHelpText.innerHTML += " (current=" + aggressionSlider.value + ")";
+
+// Update the riskHelpText whenever the riskSlider value changes
+riskSlider.oninput = function() {
+  // Remove the previous current value
+  riskHelpText.innerHTML = riskHelpText.innerHTML.replace(/ \(current=\d+\)$/, "");
+  // Append the new current value
+  riskHelpText.innerHTML += " (current=" + this.value + ")";
+}
+aggressionSlider.oninput = function() {
+  // Remove the previous current value
+  aggressionHelpText.innerHTML = aggressionHelpText.innerHTML.replace(/ \(current=\d+\)$/, "");
+  // Append the new current value
+  aggressionHelpText.innerHTML += " (current=" + this.value + ")";
+}
+</script>
+{% endblock custom_js %}

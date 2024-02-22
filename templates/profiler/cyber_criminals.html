@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block title %}Cyber-Criminals{% endblock title %}
+
+{% block header %}
+<div class="pagetitle">
+    <h1>List Cyber-Criminals</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+            <li class="breadcrumb-item active">Cyber-Criminals</li>
+        </ol>
+    </nav>
+</div>
+{% endblock header %}
+
+{% block content %}
+<section class="container-fluid">
+    <table id="myTable" class="display">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>D.O.B</th>
+                <th>Nationality</th>
+                <th>Aggression Level</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cyber_criminal in cyber_criminals %}
+            <tr>
+                <td>
+                    <a href="{% url 'profiler:view_profile' cyber_criminal.id %}">
+                        {{ cyber_criminal.name }}
+                    </a>
+                </td>
+                <td>{{ cyber_criminal.d_o_b }}</td>
+                <td>{{ cyber_criminal.get_nationality_display }}</td>
+                <td>{{ cyber_criminal.aggression_level }}/10</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock content %}
+
+{% block custom_js %}
+<script>
+    $('#myTable').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
+</script>
+{% endblock custom_js %}
